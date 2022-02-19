@@ -8,6 +8,13 @@ key = "KATHY"
 
 
 def matrix(x, y, initial):
+    """
+    Make the matrix
+    :param x:
+    :param y:
+    :param initial:
+    :return:
+    """
     return [[initial for i in range(x)] for j in range(y)]
 
 
