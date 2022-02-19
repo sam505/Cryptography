@@ -4,7 +4,9 @@ Playfair Encryption and Decryption
 
 import string
 
-key = "KATHY"
+key = "Kathy"
+cipher_text = ""
+decoded_text = ""
 
 
 def matrix(x, y, initial):
@@ -19,7 +21,7 @@ def matrix(x, y, initial):
 
 
 result = list()
-for c in key:  # storing key
+for c in key.upper():  # storing key
     if c not in result:
         if c == 'J':
             result.append('I')
@@ -64,6 +66,7 @@ def encrypt():  # Encryption
     """
     Encryption function
     """
+    global cipher_text
     msg = "We have a very hot summer in Saudi Arabia."
     msg = msg.translate(str.maketrans('', '', string.punctuation))  # Remove punctuation
     msg = msg.upper()
@@ -82,21 +85,22 @@ def encrypt():  # Encryption
         loc = locate_index(msg[i])
         loc1 = list()
         loc1 = locate_index(msg[i + 1])
-        print(loc, loc1)
         if loc[1] == loc1[1]:
-            print("{}{}".format(enc_matrix[(loc[0] + 1) % 5][loc[1]], enc_matrix[(loc1[0] + 1) % 5][loc1[1]]), end=' ')
+            cipher_text += "{}{} ".format(enc_matrix[(loc[0] + 1) % 5][loc[1]], enc_matrix[(loc1[0] + 1) % 5][loc1[1]])
         elif loc[0] == loc1[0]:
-            print("{}{}".format(enc_matrix[loc[0]][(loc[1] + 1) % 5], enc_matrix[loc1[0]][(loc1[1] + 1) % 5]), end=' ')
+            cipher_text += "{}{} ".format(enc_matrix[loc[0]][(loc[1] + 1) % 5], enc_matrix[loc1[0]][(loc1[1] + 1) % 5])
         else:
-            print("{}{}".format(enc_matrix[loc[0]][loc1[1]], enc_matrix[loc1[0]][loc[1]]), end=' ')
+            cipher_text += "{}{} ".format(enc_matrix[loc[0]][loc1[1]], enc_matrix[loc1[0]][loc[1]])
         i += 2
+    print(cipher_text)
 
 
 def decrypt():
     """
     Decryption
     """
-    msg = str(input("ENTER CIPHER TEXT:"))
+    global decoded_text
+    msg = cipher_text
     msg = msg.upper()
     msg = msg.replace(" ", "")
     print("PLAIN TEXT:", end=' ')
@@ -107,15 +111,20 @@ def decrypt():
         loc1 = list()
         loc1 = locate_index(msg[i + 1])
         if loc[1] == loc1[1]:
-            print("{}{}".format(enc_matrix[(loc[0] - 1) % 5][loc[1]], enc_matrix[(loc1[0] - 1) % 5][loc1[1]]), end=' ')
+            decoded_text += "{}{}".format(enc_matrix[(loc[0] - 1) % 5][loc[1]], enc_matrix[(loc1[0] - 1) % 5][loc1[1]])
         elif loc[0] == loc1[0]:
-            print("{}{}".format(enc_matrix[loc[0]][(loc[1] - 1) % 5], enc_matrix[loc1[0]][(loc1[1] - 1) % 5]), end=' ')
+            decoded_text += "{}{}".format(enc_matrix[loc[0]][(loc[1] - 1) % 5], enc_matrix[loc1[0]][(loc1[1] - 1) % 5])
         else:
-            print("{}{}".format(enc_matrix[loc[0]][loc1[1]], enc_matrix[loc1[0]][loc[1]]), end=' ')
+            decoded_text += "{}{}".format(enc_matrix[loc[0]][loc1[1]], enc_matrix[loc1[0]][loc[1]])
         i += 2
+
+    print(decoded_text)
 
 
 def main():
+    """
+    Main function
+    """
     encrypt()
     decrypt()
 
